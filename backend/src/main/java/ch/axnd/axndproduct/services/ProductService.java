@@ -5,4 +5,6 @@ import ch.axnd.axndproduct.entities.Product;
 public interface ProductService {
 
     Product addProduct(Product product);
+
+    Product editProduct(Product product);
 }

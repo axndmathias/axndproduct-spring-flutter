@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -30,4 +31,19 @@ public class ProductController {
             return ResponseHandler.handleResponse("ERROR", HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    @PutMapping("/edit")
+    public ResponseEntity<Object> editProduct(@RequestBody @Valid Product product) {
+        try {
+            Product editedProduct = productService.editProduct(product);
+            if (editedProduct != null) {
+                return ResponseHandler.handleResponse("Sucessfuly edit product", HttpStatus.OK, editedProduct);
+            } else {
+                return ResponseHandler.handleResponse("Product Id not exist", HttpStatus.BAD_REQUEST, null);
+            }
+        } catch (Exception e) {
+            return ResponseHandler.handleResponse("ERROR", HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
 }

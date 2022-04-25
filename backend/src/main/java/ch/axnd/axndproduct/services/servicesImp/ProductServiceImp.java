@@ -20,4 +20,12 @@ public class ProductServiceImp implements ProductService {
         return productRepository.save(product);
     }
 
+    @Override
+    public Product editProduct(Product product) {
+        boolean exist = productRepository.existsById(product.getId());
+        if (exist) {
+            return productRepository.save(product);
+        }
+        return null;
+    }
 }
