@@ -3,6 +3,8 @@ import 'package:frontend/common/constants.dart';
 import 'package:frontend/providers/product_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/add_product_drawer.dart';
+
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
 
@@ -45,6 +47,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         centerTitle: true,
         actions: const [SizedBox()],
       ),
+      endDrawer: const AddProductDrawer(),
     );
   }
 }
