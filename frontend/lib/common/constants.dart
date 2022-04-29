@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 // ignore: constant_identifier_names
-const Color APP_COLOR = Color(0xff5b3bfe);
+const Color APP_COLOR = Color.fromARGB(255, 9, 9, 9);
 
 // ignore: constant_identifier_names
 const int PAGE_LIMIT = 10;

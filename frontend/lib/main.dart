@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/product_provider.dart';
+import 'package:frontend/views/screens/products_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -16,20 +17,7 @@ class MyApp extends StatelessWidget {
       create: (context) => ProductProvider(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MyHomePage(),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home Screen"),
+        home: ProductsScreen(),
       ),
     );
   }
