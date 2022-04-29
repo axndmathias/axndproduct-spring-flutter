@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/product_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +12,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Code Statrting',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (context) => ProductProvider(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: MyHomePage(),
       ),
-      home: const MyHomePage(),
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
 import 'package:frontend/models/Product.dart';
 
 import '../services/api_service.dart';
@@ -55,7 +54,7 @@ class ProductRepository {
     return editedProduct;
   }
 
-  void deleteProduct(Product product) async {
+  Future<dynamic> deleteProduct(Product product) async {
     http.Response response =
         await _apiService.delete("/product/delete/${product.id}");
     dynamic responseJson = jsonDecode(response.body);
