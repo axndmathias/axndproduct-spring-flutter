@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:frontend/models/Product.dart';
-
+import '../models/Product.dart';
 import '../services/api_service.dart';
 import '../common/constants.dart';
 
