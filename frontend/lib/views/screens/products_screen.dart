@@ -115,7 +115,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       } else if (value == sortBy[1]) {
                         sortType = SortTypes.DESC;
                       } else {
-                        print(":::::::$value");
                         sortType = SortTypes.ASC;
                       }
                       setState(() {});

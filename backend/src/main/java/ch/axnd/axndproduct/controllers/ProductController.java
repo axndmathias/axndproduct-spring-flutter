@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import ch.axnd.axndproduct.entities.Product;
 import ch.axnd.axndproduct.handlers.ResponseHandler;
 import ch.axnd.axndproduct.services.ProductService;
 
+@CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/api/products")
 public class ProductController {
