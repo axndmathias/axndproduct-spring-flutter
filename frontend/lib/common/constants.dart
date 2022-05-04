@@ -11,6 +11,9 @@ enum SortTypes {
   ASC,
   // ignore: constant_identifier_names
   DESC,
+
+  // ignore: constant_identifier_names
+  NONE,
 }
 
 enum GetTypes {

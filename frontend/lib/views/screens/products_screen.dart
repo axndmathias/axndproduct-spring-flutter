@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/constants.dart';
-import 'package:frontend/providers/product_provider.dart';
-import 'package:provider/provider.dart';
 
+import 'package:frontend/views/widgets/product_container.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive_grid/responsive_grid.dart';
+
+import '../../providers/product_provider.dart';
 import '../widgets/add_product_drawer.dart';
 import '../widgets/custom_elevated_button.dart';
 
@@ -15,7 +18,7 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String> sortBy = ['Price Ascending', 'Proice Descending', 'none'];
+  List<String> sortBy = ['Price Ascending', 'Price Descending', 'none'];
   SortTypes? sortType;
   String? sortValue;
   String? searchValue;
@@ -28,7 +31,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     Future.delayed(Duration.zero, () async {
       await Provider.of<ProductProvider>(context, listen: false)
           .getProducts(0, null, null, GetTypes.PAGING);
-
       pagesNum =
           Provider.of<ProductProvider>(context, listen: false).pagesNumber;
     });
@@ -42,7 +44,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       appBar: AppBar(
         backgroundColor: APP_COLOR,
         title: const Text(
-          "axnd Ecommerce 🚀",
+          'Ecommerce Admin Panel 🚀',
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
@@ -59,11 +61,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  "Products 💸",
+                  'Products 💰',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 CustomElevatedButton(
-                  text: "Add Product",
+                  text: 'Add Product',
                   icon: Icons.add,
                   onPressed: () {
                     Provider.of<ProductProvider>(context, listen: false)
@@ -85,7 +87,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   child: TextField(
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 15),
-                      hintText: "search by name...",
+                      hintText: 'search by name...',
                       border: InputBorder.none,
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -96,7 +98,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 ),
                 const SizedBox(width: 10),
                 SizedBox(
-                  width: 160,
+                  width: 150,
                   child: DropdownButton(
                     hint: const Text("Sort By"),
                     value: sortValue,
@@ -113,7 +115,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       } else if (value == sortBy[1]) {
                         sortType = SortTypes.DESC;
                       } else {
-                        sortType = null;
+                        print(":::::::$value");
+                        sortType = SortTypes.ASC;
                       }
                       setState(() {});
                     },
@@ -123,9 +126,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 CustomElevatedButton(
                   text: "Filter",
                   icon: Icons.filter_list,
-                  color: Colors.black87,
-                  onPressed: () {
-                    Provider.of<ProductProvider>(context, listen: false)
+                  color: Colors.black,
+                  onPressed: () async {
+                    await Provider.of<ProductProvider>(context, listen: false)
                         .getProducts(0, searchValue, sortType, GetTypes.FILTER);
                     pagesNum =
                         Provider.of<ProductProvider>(context, listen: false)
@@ -133,9 +136,52 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     nextPage = 1;
                     setState(() {});
                   },
-                ),
-                const SizedBox(height: 10),
+                )
               ],
+            ),
+          ),
+          const SizedBox(height: 30),
+          Expanded(
+            child: ResponsiveGridList(
+              desiredItemWidth: 200,
+              minSpacing: 20,
+              children: Provider.of<ProductProvider>(context)
+                  .products
+                  .map<Widget>((product) {
+                return GestureDetector(
+                  onTap: () {
+                    Provider.of<ProductProvider>(context, listen: false)
+                        .productToEdit = product;
+                    _scaffoldKey.currentState!.openEndDrawer();
+                  },
+                  child: ProductContainer(product: product),
+                );
+              }).toList()
+                ..add(
+                  pagesNum > 1
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 210,
+                              child: CustomElevatedButton(
+                                text: 'Load More',
+                                icon: Icons.add,
+                                color: Colors.grey,
+                                onPressed: () {
+                                  Provider.of<ProductProvider>(context,
+                                          listen: false)
+                                      .getProducts(nextPage, searchValue,
+                                          sortType, GetTypes.PAGING);
+                                  pagesNum--;
+                                  nextPage++;
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
+                ),
             ),
           ),
         ],

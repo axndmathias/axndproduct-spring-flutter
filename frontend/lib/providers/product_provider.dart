@@ -12,13 +12,14 @@ class ProductProvider extends ChangeNotifier {
   final ProductRepository _productRepository = ProductRepository();
 
   getProducts(int page, String? searchValue, SortTypes? sortType,
-      GetTypes getType) async {
+      GetTypes getTypes) async {
     Map<String, dynamic> returnedData =
         await _productRepository.getProductsList(page, searchValue, sortType);
 
     List<Product> pageProducts = await returnedData["products list"];
     pagesNumber = returnedData["pages number"];
-    if (getType == GetTypes.PAGING) {
+
+    if (getTypes == GetTypes.PAGING) {
       products = products + pageProducts;
     } else {
       products = pageProducts;

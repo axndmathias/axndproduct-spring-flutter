@@ -16,10 +16,9 @@ class ProductRepository {
       "limit": PAGE_LIMIT.toString()
     };
     if (searchValue != null) params["productName"] = searchValue;
-    if (searchValue != null) {
+    if (sortType != null) {
       params["sortType"] = sortType.toString().split('.').last;
     }
-
     http.Response response = await _apiService.get("/products", params);
     dynamic responseJson = jsonDecode(response.body);
     final productsData = responseJson['data']['content'] as List;
@@ -35,8 +34,7 @@ class ProductRepository {
 
   Future<Product> addProduct(Product product) async {
     http.Response response =
-        await _apiService.post("/product/add", product.toJson(product));
-
+        await _apiService.post("/products/add", product.toJson(product));
     dynamic responseJson = jsonDecode(response.body);
     final jsonData = responseJson['data'];
     Product savedProduct = Product.fromJson(jsonData);
@@ -45,8 +43,7 @@ class ProductRepository {
 
   Future<Product> editProduct(Product product) async {
     http.Response response =
-        await _apiService.put("/product/edit", product.toJson(product));
-
+        await _apiService.put("/products/edit", product.toJson(product));
     dynamic responseJson = jsonDecode(response.body);
     final jsonData = responseJson['data'];
     Product editedProduct = Product.fromJson(jsonData);
@@ -55,7 +52,7 @@ class ProductRepository {
 
   Future<dynamic> deleteProduct(Product product) async {
     http.Response response =
-        await _apiService.delete("/product/delete/${product.id}");
+        await _apiService.delete("/products/delete/${product.id}");
     dynamic responseJson = jsonDecode(response.body);
     final jsonMessage = responseJson['message'];
   }
